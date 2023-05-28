@@ -105,7 +105,7 @@ class User:
     def id(self, value):
         if type(value) != int:
             raise TypeError()
-        if value < 1:
+        if value < 0:
             raise ValueError()
         self._id = value
 
@@ -315,6 +315,15 @@ def get_all_users():
     return users
 
 
-print(get_all_users())
+def add_new_user(user: User):
+    cur.execute(
+        "INSERT INTO users (login, password, name, surname, phone, email, birthdate, status) VALUES (?,?,?,?,?,?,?,?)",
+        (user.login, user.password, user.name, user.surname, user.phone, user.email, user.birthdate,
+         user.status))
+    conn.commit()
 
+
+print(get_all_users())
+user1 = User(0, 'testlogin', 'testpassword', 'Василий', 'Ефименко', '89993456789', 'mail@mmail.ru', None, 3)
+add_new_user(user1)
 
