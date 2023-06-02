@@ -12,7 +12,7 @@ cur.execute("""CREATE TABLE IF NOT EXISTS users(
    password TEXT NOT NULL,
    name TEXT NOT NULL,
    surname TEXT NOT NULL,
-   phone TEXT UNIQUE,
+   phone TEXT UNIQUE, 
    email TEXT UNIQUE,
    birthdate DATE);
 """)
