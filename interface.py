@@ -242,8 +242,14 @@ class Window(Tk):
         columns = ['id', 'login', 'password', 'name', 'surname', 'phone', 'email', 'berthdate', 'status']
         self.users_table = ttk.Treeview(columns=columns, show='headings', master=frame1)
 
-        self.users_table.heading('id', text='ID')
-        self.users_table.column('#1', stretch=NO, width=30)
+        columns_names = ['ID', 'Login', 'Password', 'Name', 'Surname', 'Phone', 'Email', 'Birthdate', 'Status']
+        columns_width = [30, 100, 100, 120, 120, 150, 150, 100, 100]
+
+        for i in range(len(columns)):
+            self.users_table.heading(columns[i], text=columns_names[i])
+            self.users_table.column(f'#{i}', stretch=NO, width=columns_width[i])
+
+
 
         self.add_user_api_func = add_user_func
         self.load_users_api_func = load_users_func
