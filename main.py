@@ -104,18 +104,19 @@ class PostServiceAPI:
         return dict((v, k) for k, v in self.cur.fetchall())
 
 
-# def get_statuses() -> list[str]:
-#     cur.execute("SELECT status FROM userstatuses")
-#     return [i[0] for i in cur.fetchall()]
-# dict1 = {'administrator': 1, 'courier': 2, 'user': 3}
-# print(dict1.get('user'))
-
-
-# statuses_dict = get_statuses()
-# print(statuses_dict)
+# # def get_statuses() -> list[str]:
+# #     cur.execute("SELECT status FROM userstatuses")
+# #     return [i[0] for i in cur.fetchall()]
+# # dict1 = {'administrator': 1, 'courier': 2, 'user': 3}
+# # print(dict1.get('user'))
+#
+#
+# # statuses_dict = get_statuses()
+# # print(statuses_dict)
 post_service_api = PostServiceAPI()
 post_service_api.setup_interface()
-
-# print(get_all_users())
-# user1 = User(0, 'testlogin', 'testpassword', 'Василий', 'Ефименко', '89993456789', 'mail@mmail.ru', None, 3)
-# add_new_user(user1)
+#
+# # print(get_all_users())
+# # user1 = User(0, 'testlogin', 'testpassword', 'Василий', 'Ефименко', '89993456789', 'mail@mmail.ru', None, 3)
+# # add_new_user(user1)
+#

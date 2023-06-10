@@ -1,6 +1,7 @@
 import datetime
 from tkinter import *
 from tkinter import ttk
+import re
 
 
 class User:
@@ -258,16 +259,9 @@ class Window(Tk):
         self.load_users_button = ttk.Button(text='Обновить', command=self.load_users_list, master=frame1)
 
         self.load_users_button.pack(side=BOTTOM, anchor=S)
-
-
-
-
-
-
-
-
-
-
+        vertical_scrollbar.pack(side=RIGHT, fill=Y)
+        self.users_table.pack(fill=BOTH, expand=True)
+        horizontal_scrollbar.pack(side=BOTTOM, fill=X)
 
         self.add_user_api_func = add_user_func
         self.load_users_api_func = load_users_func
@@ -282,6 +276,8 @@ class Window(Tk):
         self.login_input.grid(row=1, column=1, padx=3, pady=3)
         self.login_error = Label(master=frame2)
         self.login_error.grid(row=1, column=2, padx=3, pady=3)
+        self.login_input.configure(validate='focusout', validatecommand=(self.register(
+            lambda value: self.validator(value, r'[a-zA-Z0-9!@#$%^&*()=_+?/><.,~`-]{8,}', self.login_error, 'Неверная длина или символы')), '%P'))
 
         self.login_label = Label(text="Логин*:", master=frame2)
         self.login_label.grid(row=1, column=0, padx=3, pady=3)
@@ -343,10 +339,9 @@ class Window(Tk):
         self.add_user_button = ttk.Button(text='Добавить пользователя', command=self.add_user, master=frame2)
         self.add_user_button.grid(row=9, column=1, padx=3, pady=3)
 
-        self.users_list_variable = Variable()
-        self.users_listbox = Listbox(listvariable=self.users_list_variable, master=frame1)
-        self.users_listbox.grid(row=10, column=0, columnspan=3, padx=3, pady=3)
-
+        # self.users_list_variable = Variable()
+        # self.users_listbox = Listbox(listvariable=self.users_list_variable, master=frame1)
+        # self.users_listbox.grid(row=10, column=0, columnspan=3, padx=3, pady=3)
 
         self.mainloop()
 
@@ -365,9 +360,25 @@ class Window(Tk):
 
     def load_users_list(self):
         users = self.load_users_api_func()
-        users_list = []
-        for user in users:
-            users_list.append(f'{user.id}. {user.login}, {user.password}, {user.name},'
-                              f' {user.surname}, {user.phone}, {user.email}, {user.birthdate}, {user.status}')
+        for i in self.users_table.get_children():
+            self.users_table.delete(i)
 
-        self.users_list_variable.set(users_list)
+        for user in users:
+            self.users_table.insert('', END, values=(
+                user.id, user.login, user.password, user.name, user.surname, user.phone, user.email, user.birthdate,
+                user.status))
+
+    # def login_validator(self, value):
+    #     pattern = '[а-яА-Я0-9]{8,}'
+    #     if re.fullmatch(pattern, value) is None:
+    #         self.login_error.configure(text='Ошибка валидации')
+    #         return False
+    #     self.login_error.configure(text='')
+    #     return True
+
+    def validator(self, value, pattern, error_label, error_text):
+        if re.fullmatch(pattern, value) is None:
+            error_label.configure(text=error_text)
+            return False
+        error_label.configure(text='')
+        return True
