@@ -249,6 +249,24 @@ class Window(Tk):
             self.users_table.heading(columns[i], text=columns_names[i])
             self.users_table.column(f'#{i}', stretch=NO, width=columns_width[i])
 
+        vertical_scrollbar = ttk.Scrollbar(orient=VERTICAL, command=self.users_table.yview, master=frame1)
+        self.users_table.configure(yscrollcommand=vertical_scrollbar.set)
+
+        horizontal_scrollbar = ttk.Scrollbar(orient=HORIZONTAL, command=self.users_table.xview, master=frame1)
+        self.users_table.configure(xscrollcommand=horizontal_scrollbar.set)
+
+        self.load_users_button = ttk.Button(text='Обновить', command=self.load_users_list, master=frame1)
+
+        self.load_users_button.pack(side=BOTTOM, anchor=S)
+
+
+
+
+
+
+
+
+
 
 
         self.add_user_api_func = add_user_func
@@ -329,8 +347,6 @@ class Window(Tk):
         self.users_listbox = Listbox(listvariable=self.users_list_variable, master=frame1)
         self.users_listbox.grid(row=10, column=0, columnspan=3, padx=3, pady=3)
 
-        self.load_users_button = ttk.Button(text='Обновить', command=self.load_users_list, master=frame1)
-        self.load_users_button.grid(row=11, column=1, padx=3, pady=3)
 
         self.mainloop()
 
